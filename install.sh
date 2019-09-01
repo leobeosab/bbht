@@ -1,28 +1,28 @@
 #!/bin/bash
-sudo apt-get -y update
-sudo apt-get -y upgrade
+echo "Updating Brew, this will take some time"
+brew update
 
+brew install openssl
+brew install jq
+brew install ruby
+brew install libxml2
+brew install python
+brew install python@2
+brew install zlib
+brew install rename
+brew install ldns
+brew install xargs
+pip3 install dnspython
 
-sudo apt-get install -y libcurl4-openssl-dev
-sudo apt-get install -y libssl-dev
-sudo apt-get install -y jq
-sudo apt-get install -y ruby-full
-sudo apt-get install -y libcurl4-openssl-dev libxml2 libxml2-dev libxslt1-dev ruby-dev build-essential libgmp-dev zlib1g-dev
-sudo apt-get install -y build-essential libssl-dev libffi-dev python-dev
-sudo apt-get install -y python-setuptools
-sudo apt-get install -y libldns-dev
-sudo apt-get install -y python3-pip
-sudo apt-get install -y python-pip
-sudo apt-get install -y python-dnspython
-sudo apt-get install -y git
-sudo apt-get install -y rename
-sudo apt-get install -y xargs
+#create a tools folder in ~/
+mkdir ~/tools
+cd ~/tools/
 
 echo "installing bash_profile aliases from recon_profile"
 git clone https://github.com/nahamsec/recon_profile.git
 cd recon_profile
-cat bash_profile >> ~/.bash_profile
-source ~/.bash_profile
+cat bash_profile >> ~/.zshrc
+source ~/.zshrc
 cd ~/tools/
 echo "done"
 
@@ -38,16 +38,14 @@ select choice in "${choices[@]}"; do
                 yes)
 
 					echo "Installing Golang"
-					wget https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz
-					sudo tar -xvf go1.12.7.linux-amd64.tar.gz
-					sudo mv go /usr/local
-					export GOROOT=/usr/local/go
-					export GOPATH=$HOME/go
-					export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-					echo 'export GOROOT=/usr/local/go' >> ~/.bash_profile
-					echo 'export GOPATH=$HOME/go'	>> ~/.bash_profile			
-					echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bash_profile	
-					source ~/.bash_profile
+          brew install golang
+					export GOROOT=/usr/local/opt/go/libexec
+					export GOPATH=$HOME/go-workspace
+					export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+					echo 'export GOROOT=/usr/local/opt/go/libexec' >> ~/.zshrc
+					echo 'export GOPATH=$HOME/go'	>> ~/.zshrc
+					echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.zshrc
+					source ~/.zshrc
 					sleep 1
 					break
 					;;
@@ -56,21 +54,15 @@ select choice in "${choices[@]}"; do
 					echo "Aborting installation..."
 					exit 1
 					;;
-	esac	
+	esac
 done
 fi
 
 
 #Don't forget to set up AWS credentials!
 echo "Don't forget to set up AWS credentials!"
-apt install -y awscli
+brew install awscli
 echo "Don't forget to set up AWS credentials!"
-
-
-
-#create a tools folder in ~/
-mkdir ~/tools
-cd ~/tools/
 
 #install aquatone
 echo "Installing Aquatone"
@@ -79,7 +71,7 @@ echo "done"
 
 #install chromium
 echo "Installing Chromium"
-sudo snap install chromium
+brew cask install chromium
 echo "done"
 
 echo "installing JSParser"
@@ -96,12 +88,10 @@ pip install -r requirements.txt
 cd ~/tools/
 echo "done"
 
-
 echo "installing teh_s3_bucketeers"
 git clone https://github.com/tomdev/teh_s3_bucketeers.git
 cd ~/tools/
 echo "done"
-
 
 echo "installing wpscan"
 git clone https://github.com/wpscanteam/wpscan.git
@@ -115,7 +105,6 @@ git clone https://github.com/maurosoria/dirsearch.git
 cd ~/tools/
 echo "done"
 
-
 echo "installing lazys3"
 git clone https://github.com/nahamsec/lazys3.git
 cd ~/tools/
@@ -125,7 +114,6 @@ echo "installing virtual host discovery"
 git clone https://github.com/jobertabma/virtual-host-discovery.git
 cd ~/tools/
 echo "done"
-
 
 echo "installing sqlmap"
 git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
@@ -143,7 +131,7 @@ cd ~/tools/
 echo "done"
 
 echo "installing nmap"
-sudo apt-get install -y nmap
+brew install nmap
 echo "done"
 
 echo "installing massdns"
@@ -161,11 +149,11 @@ cd ~/tools/
 echo "done"
 
 echo "installing httprobe"
-go get -u github.com/tomnomnom/httprobe 
+go get -u github.com/tomnomnom/httprobe
 echo "done"
 
 echo "installing unfurl"
-go get -u github.com/tomnomnom/unfurl 
+go get -u github.com/tomnomnom/unfurl
 echo "done"
 
 echo "installing waybackurls"
